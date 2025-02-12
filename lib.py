@@ -16,7 +16,7 @@ class gcolors:
 class Grid(MutableSequence):
     def __init__(self, arg):
         self.arg = arg
-        self.puzzle = copy.deepcopy(self.arg)
+        self.puzzle = copy.deepcopy(self.arg)   # Make a deepcopy of the original puzzle values to keep the user from writing over values that they shouldn't
         self.values = [1,2,3,4,5,6,7,8,9,'erase']
     def __delitem__(self, index):
         return self.arg.__delitem__(index)
@@ -99,7 +99,9 @@ class Grid(MutableSequence):
         return True
     def isCorrect(self):
         # Validate each row in self.puzzle; return false if a row does not contain all values
+        # self.puzzle is already formatted into rows, so no need for additional transformations or methods
         if self.validate(self.puzzle) == False:
+            print(self.puzzle)
             return False
         
         # Create list of column values in self.puzzle and validate each column
@@ -148,4 +150,5 @@ class Grid(MutableSequence):
             counter += 1
         return squares
     def reset(self):
-        self.puzzle = copy.deepcopy(self.arg)
+        self.puzzle = copy.deepcopy(self.arg)   # Reset the puzzle using original input
+        print(f"\n{gcolors.OKCYAN}Grid has been reset!{gcolors.ENDC}\n")

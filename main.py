@@ -20,7 +20,7 @@ def saveGrid(grid,dbName,gridName):
     db = shelve.open(dbName)
     db[gridName] = grid
     db.close()           
-    print(f"\n{gcolors.OKCYAN}Grid has been saved!{gcolors.ENDC}")
+    print(f"\n{gcolors.OKCYAN}Grid has been saved!{gcolors.ENDC}\n")
 def main():
     """easy =  [   [' ',7,9,8,' ',2,' ',6,3],
                 [6,' ',' ',9,' ',' ',' ',1,' '],
@@ -42,6 +42,7 @@ def main():
                 [2,3,9,8,4,1,5,6,7]]"""
     dbName = 'appDB'
     gridName = 'currentGridV3'
+
     db = shelve.open(dbName)
     grid = db[gridName]
     db.close()
@@ -70,15 +71,15 @@ def main():
             continue
         if text == 'reset':
             grid.reset()
-            print(f"\n{gcolors.OKCYAN}Grid has been reset!{gcolors.ENDC}")
             grid.display()
             continue
-
-        #try:
-        row, col, val = [x.lstrip().rstrip() for x in text.split(sep=',')]
-        grid.fillbox(row,col,val)
-        #except ValueError:
-            #print(f"\n{gcolors.FAIL}Error: Invalid input!{gcolors.ENDC}\n", file=sys.stderr)
+        
+        try:
+            row, col, val = [x.lstrip().rstrip() for x in text.split(sep=',')]
+        except ValueError:
+            continue
+        
+        grid.fillbox(row,col,val)   # This will fail with a ValueError if not properly handling inputs in lib.py
         grid.display()
 
 main()
