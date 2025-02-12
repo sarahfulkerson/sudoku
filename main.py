@@ -77,8 +77,10 @@ def main():
         try:
             row, col, val = [x.lstrip().rstrip() for x in text.split(sep=',')]
         except ValueError:
+            print(f"\n{gcolors.FAIL}Error: Too many inputs!{gcolors.ENDC}\n", file=sys.stderr)
+            grid.display()
             continue
-        
+
         grid.fillbox(row,col,val)   # This will fail with a ValueError if not properly handling inputs in lib.py
         grid.display()
 
