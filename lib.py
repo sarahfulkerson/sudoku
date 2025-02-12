@@ -56,31 +56,34 @@ class Grid(MutableSequence):
         print(horizontal)
     def fillbox(self,row,col,val):
         # Validates that the user provided an allowable row
-        if int(row) not in self.values[:-1]:
-            print(int(row), self.values[:-1])
+        try:
+            rowindex = int(row)-1
+            if int(row) not in self.values:
+                raise ValueError()
+        except ValueError:
             print(f"\n{gcolors.FAIL}Error: Not a valid row!{gcolors.ENDC}\n", file=sys.stderr)
-            self.display()
             return
 
         # Validates that the user provided an allowable col
-        if int(col) not in self.values[:-1]:
+        try:
+            colindex = int(col)-1
+            if int(col) not in self.values:
+                raise ValueError()
+        except ValueError:
             print(f"\n{gcolors.FAIL}Error: Not a valid column!{gcolors.ENDC}\n", file=sys.stderr)
-            self.display()
             return
 
-        rowindex = int(row)-1
-        colindex = int(col)-1        
-
         # Validates that the user provided an allowable value
-        if int(val) not in self.values:
+        try:
+            if val not in self.values and int(val) not in self.values:
+                raise ValueError()
+        except ValueError:
             print(f"\n{gcolors.FAIL}Error: Not an allowable value!{gcolors.ENDC}\n", file=sys.stderr)
-            self.display()
             return
 
         # Validates the user input against the original puzzle
         if self.arg[rowindex][colindex] != ' ':
             print(f"\n{gcolors.FAIL}Error: Can't change original puzzle!{gcolors.ENDC}\n", file=sys.stderr)
-            self.display()
             return
         
         # Either erase or place a number as requested by the user
@@ -90,7 +93,6 @@ class Grid(MutableSequence):
         else:
             self.puzzle[rowindex][colindex] = int(val)
             print(f"\n{gcolors.OKCYAN}{val} placed in R{row}, C{col}\n{gcolors.ENDC}")
-        self.display()
     def isfull(self):
         # Determine if every box in the grid has a value
         if set(map(lambda x: ' ' in x, self.puzzle)) != {False}: return False
@@ -98,7 +100,6 @@ class Grid(MutableSequence):
     def isCorrect(self):
         # Validate each row in self.puzzle; return false if a row does not contain all values
         if self.validate(self.puzzle) == False:
-            print('False: Row')
             return False
         
         # Create list of column values in self.puzzle and validate each column

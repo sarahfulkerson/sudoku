@@ -55,7 +55,6 @@ def main():
                 print(f"\n{gcolors.OKCYAN}YAY YOU DID IT!{gcolors.ENDC}\n")
             else:
                 print(f"\n{gcolors.FAIL}Oh no! Something's wrong!{gcolors.ENDC}\n", file=sys.stderr)
-            break
         text = str(input("\nRow, Col, value: ")).lower()
         if text == 'quit':
             saveGrid(grid,dbName,gridName)
@@ -75,11 +74,11 @@ def main():
             grid.display()
             continue
 
-        try:
-            row, col, val = [x.lstrip().rstrip() for x in text.split(sep=',')]
-            grid.fillbox(row,col,val)
-        except ValueError:
-            print(f"\n{gcolors.FAIL}Error: Not enough values!{gcolors.ENDC}\n", file=sys.stderr)
-            grid.display()
+        #try:
+        row, col, val = [x.lstrip().rstrip() for x in text.split(sep=',')]
+        grid.fillbox(row,col,val)
+        #except ValueError:
+            #print(f"\n{gcolors.FAIL}Error: Invalid input!{gcolors.ENDC}\n", file=sys.stderr)
+        grid.display()
 
 main()
