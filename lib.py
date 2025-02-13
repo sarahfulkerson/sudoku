@@ -15,7 +15,7 @@ class gcolors:
 
 class Grid(MutableSequence):
     def __init__(self, arg):
-        self.arg = arg
+        self.arg = arg  # Stores the original grid of numbers which should not be overwritten by the user
         self.puzzle = copy.deepcopy(self.arg)   # Make a deepcopy of the original puzzle values to keep the user from writing over values that they shouldn't
         self.values = [1,2,3,4,5,6,7,8,9,'erase']
     def __delitem__(self, index):

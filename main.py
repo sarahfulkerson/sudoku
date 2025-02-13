@@ -51,36 +51,43 @@ def main():
     grid.display()
 
     while True:
+        # If the grid is full, check if it is correct. If not, continue allowing input
         if grid.isfull() == True: 
             if grid.isCorrect() == True:
                 print(f"\n{gcolors.OKCYAN}YAY YOU DID IT!{gcolors.ENDC}\n")
             else:
                 print(f"\n{gcolors.FAIL}Oh no! Something's wrong!{gcolors.ENDC}\n", file=sys.stderr)
+        
+        # When grid is not full, ask for input
         text = str(input("\nRow, Col, value: ")).lower()
+
+        # Attempt to parse text commands before parsing for an answer to the grid
         if text == 'quit':
             saveGrid(grid,dbName,gridName)
             print(f"\n{gcolors.OKCYAN}See ya!{gcolors.ENDC}\n")
             break
-        if text == 'save':
+        elif text == 'save':
             saveGrid(grid,dbName,gridName)
             grid.display()
             continue
-        if text == 'help':
+        elif text == 'help':
             print(helpString)
             grid.display()
             continue
-        if text == 'reset':
+        elif text == 'reset':
             grid.reset()
             grid.display()
             continue
         
+        # Attempt to parse an answer to the grid from user input
         try:
             row, col, val = [x.lstrip().rstrip() for x in text.split(sep=',')]
         except ValueError:
             print(f"\n{gcolors.FAIL}Error: Too many inputs!{gcolors.ENDC}\n", file=sys.stderr)
             grid.display()
             continue
-
+        
+        # Attempt to fill a box on the grid with user input
         grid.fillbox(row,col,val)   # This will fail with a ValueError if not properly handling inputs in lib.py
         grid.display()
 
